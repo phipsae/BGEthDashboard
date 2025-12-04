@@ -6,14 +6,65 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D46770682EE20ECA003C9D30 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46770672EE20ECA003C9D30 /* WidgetKit.framework */; };
+		D467706A2EE20ECA003C9D30 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46770692EE20ECA003C9D30 /* SwiftUI.framework */; };
+		D46770752EE20ECD003C9D30 /* BGEthGasWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D46770652EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D46770732EE20ECD003C9D30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D467704B2EE20C95003C9D30 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D46770642EE20ECA003C9D30;
+			remoteInfo = BGEthGasWidgetExtensionExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D467707A2EE20ECD003C9D30 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D46770752EE20ECD003C9D30 /* BGEthGasWidgetExtensionExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		D46770532EE20C95003C9D30 /* BGEthGasWidget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BGEthGasWidget.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D46770652EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BGEthGasWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D46770672EE20ECA003C9D30 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
+		D46770692EE20ECA003C9D30 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D46770762EE20ECD003C9D30 /* Exceptions for "BGEthGasWidgetExtension" folder in "BGEthGasWidgetExtensionExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D46770642EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D46770552EE20C95003C9D30 /* BGEthGasWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BGEthGasWidget;
+			sourceTree = "<group>";
+		};
+		D467706B2EE20ECA003C9D30 /* BGEthGasWidgetExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D46770762EE20ECD003C9D30 /* Exceptions for "BGEthGasWidgetExtension" folder in "BGEthGasWidgetExtensionExtension" target */,
+			);
+			path = BGEthGasWidgetExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,6 +77,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D46770622EE20ECA003C9D30 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D467706A2EE20ECA003C9D30 /* SwiftUI.framework in Frameworks */,
+				D46770682EE20ECA003C9D30 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -33,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				D46770552EE20C95003C9D30 /* BGEthGasWidget */,
+				D467706B2EE20ECA003C9D30 /* BGEthGasWidgetExtension */,
+				D46770662EE20ECA003C9D30 /* Frameworks */,
 				D46770542EE20C95003C9D30 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,8 +103,18 @@
 			isa = PBXGroup;
 			children = (
 				D46770532EE20C95003C9D30 /* BGEthGasWidget.app */,
+				D46770652EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D46770662EE20ECA003C9D30 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D46770672EE20ECA003C9D30 /* WidgetKit.framework */,
+				D46770692EE20ECA003C9D30 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -55,10 +127,12 @@
 				D467704F2EE20C95003C9D30 /* Sources */,
 				D46770502EE20C95003C9D30 /* Frameworks */,
 				D46770512EE20C95003C9D30 /* Resources */,
+				D467707A2EE20ECD003C9D30 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D46770742EE20ECD003C9D30 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D46770552EE20C95003C9D30 /* BGEthGasWidget */,
@@ -69,6 +143,28 @@
 			productName = BGEthGasWidget;
 			productReference = D46770532EE20C95003C9D30 /* BGEthGasWidget.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D46770642EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D46770772EE20ECD003C9D30 /* Build configuration list for PBXNativeTarget "BGEthGasWidgetExtensionExtension" */;
+			buildPhases = (
+				D46770612EE20ECA003C9D30 /* Sources */,
+				D46770622EE20ECA003C9D30 /* Frameworks */,
+				D46770632EE20ECA003C9D30 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D467706B2EE20ECA003C9D30 /* BGEthGasWidgetExtension */,
+			);
+			name = BGEthGasWidgetExtensionExtension;
+			packageProductDependencies = (
+			);
+			productName = BGEthGasWidgetExtensionExtension;
+			productReference = D46770652EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -81,6 +177,9 @@
 				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					D46770522EE20C95003C9D30 = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					D46770642EE20ECA003C9D30 = {
 						CreatedOnToolsVersion = 26.1.1;
 					};
 				};
@@ -100,12 +199,20 @@
 			projectRoot = "";
 			targets = (
 				D46770522EE20C95003C9D30 /* BGEthGasWidget */,
+				D46770642EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D46770512EE20C95003C9D30 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D46770632EE20ECA003C9D30 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +229,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D46770612EE20ECA003C9D30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D46770742EE20ECD003C9D30 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D46770642EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension */;
+			targetProxy = D46770732EE20ECD003C9D30 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D467705C2EE20C9A003C9D30 /* Debug */ = {
@@ -323,6 +445,86 @@
 			};
 			name = Release;
 		};
+		D46770782EE20ECD003C9D30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BGEthGasWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BGEthGasWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthGasWidget.BGEthGasWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Debug;
+		};
+		D46770792EE20ECD003C9D30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BGEthGasWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BGEthGasWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthGasWidget.BGEthGasWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -340,6 +542,15 @@
 			buildConfigurations = (
 				D467705F2EE20C9A003C9D30 /* Debug */,
 				D46770602EE20C9A003C9D30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D46770772EE20ECD003C9D30 /* Build configuration list for PBXNativeTarget "BGEthGasWidgetExtensionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D46770782EE20ECD003C9D30 /* Debug */,
+				D46770792EE20ECD003C9D30 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
