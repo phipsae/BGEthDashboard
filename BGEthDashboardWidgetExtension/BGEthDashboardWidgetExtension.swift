@@ -193,19 +193,28 @@ struct EthGasWidgetEntryView: View {
     // MARK: - Small Widget
     var smallWidget: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 4) {
-                // Header with BG Logo
-                HStack(spacing: 6) {
+            // BG Logo - upper right corner
+            VStack {
+                HStack {
+                    Spacer()
                     Image("BGLogo")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 20, height: 20)
-                    Text("Ethereum")
-                        .font(.system(size: 12, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.7))
+                        .frame(width: 18, height: 18)
                 }
-
                 Spacer()
+            }
+            .padding(.top, -4)
+            .padding(.trailing, -4)
+
+            // Main content
+            VStack(alignment: .leading, spacing: 4) {
+                Spacer()
+
+                // Ethereum label directly above price
+                Text("Ethereum")
+                    .font(.system(size: 11, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.6))
 
                 // Price
                 Text(entry.ethPrice)
