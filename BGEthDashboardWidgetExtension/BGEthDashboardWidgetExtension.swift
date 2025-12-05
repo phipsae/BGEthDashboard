@@ -8,13 +8,17 @@ struct RefreshWidgetIntent: AppIntent {
     static var title: LocalizedStringResource = "Refresh Widget"
     static var description = IntentDescription("Refreshes the ETH & Gas widget data")
 
-    @MainActor
     func perform() async throws -> some IntentResult {
-        // Reload all widget timelines
-        WidgetCenter.shared.reloadTimelines(ofKind: "BGEthDashboardWidgetExtension")
+        // Brief delay to let XPC connection stabilize
+        try? await Task.sleep(for: .milliseconds(50))
+        WidgetCenter.shared.reloadAllTimelines()
         return .result()
     }
 }
+
+// Force the intent to run in the main app process to avoid widget extension XPC issues
+@available(iOSApplicationExtension, unavailable)
+extension RefreshWidgetIntent: ForegroundContinuableIntent {}
 
 // MARK: - API Response Models
 

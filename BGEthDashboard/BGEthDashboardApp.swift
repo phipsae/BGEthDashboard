@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct BGEthDashboardApp: App {
+struct BGEthDashboxardApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
