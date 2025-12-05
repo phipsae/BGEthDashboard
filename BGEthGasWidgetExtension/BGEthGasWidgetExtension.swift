@@ -1,5 +1,20 @@
 import WidgetKit
 import SwiftUI
+import AppIntents
+
+// MARK: - Refresh Intent
+
+struct RefreshWidgetIntent: AppIntent {
+    static var title: LocalizedStringResource = "Refresh Widget"
+    static var description = IntentDescription("Refreshes the ETH & Gas widget data")
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        // Reload all widget timelines
+        WidgetCenter.shared.reloadTimelines(ofKind: "BGEthGasWidgetExtension")
+        return .result()
+    }
+}
 
 // MARK: - API Response Models
 
@@ -170,112 +185,144 @@ struct EthGasWidgetEntryView: View {
 
     // MARK: - Small Widget
     var smallWidget: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            // Header with BG Logo
-            HStack(spacing: 6) {
-                Image("BGLogo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                Text("Ethereum")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.7))
-            }
+        ZStack {
+            VStack(alignment: .leading, spacing: 4) {
+                // Header with BG Logo
+                HStack(spacing: 6) {
+                    Image("BGLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                    Text("Ethereum")
+                        .font(.system(size: 12, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.7))
+                }
 
-            Spacer()
+                Spacer()
 
-            // Price
-            Text(entry.ethPrice)
-                .font(.system(size: 24, weight: .bold, design: .rounded))
-                .foregroundStyle(.white)
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
-
-            // Gas
-            HStack(spacing: 4) {
-                Image(systemName: "fuelpump.fill")
-                    .font(.system(size: 10))
-                    .foregroundStyle(.cyan.opacity(0.8))
-                Text("\(entry.gasPrice) gwei")
-                    .font(.system(size: 12, weight: .medium, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.8))
+                // Price
+                Text(entry.ethPrice)
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                    .minimumScaleFactor(0.6)
+
+                // Gas
+                HStack(spacing: 4) {
+                    Image(systemName: "fuelpump.fill")
+                        .font(.system(size: 10))
+                        .foregroundStyle(.cyan.opacity(0.8))
+                    Text("\(entry.gasPrice) gwei")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.8))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
+
+                Spacer()
+
+                // Timestamp
+                Text(entry.date, style: .time)
+                    .font(.system(size: 10, weight: .medium, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.4))
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
-            Spacer()
-
-            // Timestamp
-            Text(entry.date, style: .time)
-                .font(.system(size: 10, weight: .medium, design: .rounded))
-                .foregroundStyle(.white.opacity(0.4))
+            // Refresh button - bottom right
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(intent: RefreshWidgetIntent()) {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.5))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
     }
 
     // MARK: - Medium Widget
     var mediumWidget: some View {
-        HStack {
-            // BG Logo on left
-            Image("BGLogo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 44, height: 44)
+        ZStack {
+            HStack {
+                // BG Logo on left
+                Image("BGLogo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 44, height: 44)
 
-            Spacer()
+                Spacer()
 
-            // Center - ETH Price
-            VStack(alignment: .center, spacing: 2) {
-                Text("Ethereum")
-                    .font(.system(size: 11, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.6))
-
-                Text(entry.ethPrice)
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
-
-                Text(entry.date, style: .time)
-                    .font(.system(size: 10, weight: .medium, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.4))
-            }
-
-            Spacer()
-
-            // Right side - Gas
-            VStack(alignment: .center, spacing: 4) {
-                HStack(spacing: 4) {
-                    Image(systemName: "fuelpump.fill")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.cyan)
-                    Text("Gas")
+                // Center - ETH Price
+                VStack(alignment: .center, spacing: 2) {
+                    Text("Ethereum")
                         .font(.system(size: 11, weight: .semibold, design: .rounded))
                         .foregroundStyle(.white.opacity(0.6))
+
+                    Text(entry.ethPrice)
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+
+                    Text(entry.date, style: .time)
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.4))
                 }
 
-                Text(entry.gasPrice)
-                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                Spacer()
 
-                Text("gwei")
-                    .font(.system(size: 11, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.6))
+                // Right side - Gas
+                VStack(alignment: .center, spacing: 4) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "fuelpump.fill")
+                            .font(.system(size: 11))
+                            .foregroundStyle(.cyan)
+                        Text("Gas")
+                            .font(.system(size: 11, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.white.opacity(0.6))
+                    }
 
-                // Gas indicator bar (based on actual gas price)
-                HStack(spacing: 3) {
-                    ForEach(0..<5) { i in
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(i < gasLevel ? Color.cyan : Color.white.opacity(0.2))
-                            .frame(width: 8, height: 4)
+                    Text(entry.gasPrice)
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+
+                    Text("gwei")
+                        .font(.system(size: 11, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.6))
+
+                    // Gas indicator bar (based on actual gas price)
+                    HStack(spacing: 3) {
+                        ForEach(0..<5) { i in
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(i < gasLevel ? Color.cyan : Color.white.opacity(0.2))
+                                .frame(width: 8, height: 4)
+                        }
                     }
                 }
             }
+            .frame(maxWidth: .infinity)
+
+            // Refresh button - bottom right
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(intent: RefreshWidgetIntent()) {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.5))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
         }
-        .frame(maxWidth: .infinity)
         .padding(12)
     }
 }
