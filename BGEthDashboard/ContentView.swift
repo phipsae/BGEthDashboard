@@ -57,7 +57,7 @@ struct ContentView: View {
 
                 // Title
                 VStack(spacing: 8) {
-                    Text("BG ETH Gas")
+                    Text("BG Eth Tracker")
                         .font(.system(size: 32, weight: .bold, design: .rounded))
                         .foregroundStyle(
                             LinearGradient(
@@ -66,10 +66,6 @@ struct ContentView: View {
                                 endPoint: .trailing
                             )
                         )
-
-                    Text("Widget")
-                        .font(.system(size: 24, weight: .medium, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.6))
                 }
                 .opacity(textOpacity)
 
@@ -107,7 +103,7 @@ struct ContentView: View {
                         InstructionRow(
                             step: "3",
                             icon: "magnifyingglass",
-                            text: "Search for \"BG ETH Gas\""
+                            text: "Search for \"Eth Tracker\""
                         )
 
                         InstructionRow(

@@ -204,8 +204,8 @@ struct EthGasWidgetEntryView: View {
                 }
                 Spacer()
             }
-            .padding(.top, -4)
-            .padding(.trailing, -4)
+            .padding(.top, -10)
+            .padding(.trailing, -10)
 
             // Main content
             VStack(alignment: .leading, spacing: 4) {
@@ -275,8 +275,8 @@ struct EthGasWidgetEntryView: View {
                 }
                 Spacer()
             }
-            .padding(.top, -4)
-            .padding(.trailing, -4)
+            .padding(.top, -10)
+            .padding(.trailing, -10)
 
             // Main content - centered
             HStack(alignment: .center, spacing: 0) {
