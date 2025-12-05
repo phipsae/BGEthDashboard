@@ -157,13 +157,13 @@ struct EthGasWidgetEntryView: View {
     var entry: EthGasProvider.Entry
 
     // Calculate gas level (1-5) based on gwei price
-    // <1 gwei = 1, 1-10 gwei = 2, 10-30 gwei = 3, 30-100 gwei = 4, >100 gwei = 5
+    // <0.5 = Ultra-low, 0.5-3 = Typical, 3-15 = Busy, 15-60 = High, >60 = Spike
     var gasLevel: Int {
         let gwei = entry.gasPriceValue
-        if gwei < 1 { return 1 }
-        else if gwei < 10 { return 2 }
-        else if gwei < 30 { return 3 }
-        else if gwei < 100 { return 4 }
+        if gwei < 0.5 { return 1 }
+        else if gwei < 3 { return 2 }
+        else if gwei < 15 { return 3 }
+        else if gwei < 60 { return 4 }
         else { return 5 }
     }
 
