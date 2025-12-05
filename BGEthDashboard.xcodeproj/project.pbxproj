@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		D46770682EE20ECA003C9D30 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46770672EE20ECA003C9D30 /* WidgetKit.framework */; };
 		D467706A2EE20ECA003C9D30 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46770692EE20ECA003C9D30 /* SwiftUI.framework */; };
-		D46770752EE20ECD003C9D30 /* BGEthGasWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D46770652EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D46770752EE20ECD003C9D30 /* BGEthDashboardExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D46770652EE20ECA003C9D30 /* BGEthDashboardExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +29,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				D46770752EE20ECD003C9D30 /* BGEthGasWidgetExtensionExtension.appex in Embed Foundation Extensions */,
+				D46770752EE20ECD003C9D30 /* BGEthDashboardExtensionExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,34 +37,34 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D46770532EE20C95003C9D30 /* BGEthGasWidget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BGEthGasWidget.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D46770652EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BGEthGasWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D46770532EE20C95003C9D30 /* BGEthDashboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BGEthDashboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D46770652EE20ECA003C9D30 /* BGEthDashboardExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BGEthDashboardExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46770672EE20ECA003C9D30 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
 		D46770692EE20ECA003C9D30 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D46770762EE20ECD003C9D30 /* Exceptions for "BGEthGasWidgetExtension" folder in "BGEthGasWidgetExtensionExtension" target */ = {
+		D46770762EE20ECD003C9D30 /* Exceptions for "BGEthDashboardWidgetExtension" folder in "BGEthDashboardExtensionExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = D46770642EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension */;
+			target = D46770642EE20ECA003C9D30 /* BGEthDashboardExtensionExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D46770552EE20C95003C9D30 /* BGEthGasWidget */ = {
+		D46770552EE20C95003C9D30 /* BGEthDashboard */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = BGEthGasWidget;
+			path = BGEthDashboard;
 			sourceTree = "<group>";
 		};
-		D467706B2EE20ECA003C9D30 /* BGEthGasWidgetExtension */ = {
+		D467706B2EE20ECA003C9D30 /* BGEthDashboardWidgetExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				D46770762EE20ECD003C9D30 /* Exceptions for "BGEthGasWidgetExtension" folder in "BGEthGasWidgetExtensionExtension" target */,
+				D46770762EE20ECD003C9D30 /* Exceptions for "BGEthDashboardWidgetExtension" folder in "BGEthDashboardExtensionExtension" target */,
 			);
-			path = BGEthGasWidgetExtension;
+			path = BGEthDashboardWidgetExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -92,8 +92,8 @@
 		D467704A2EE20C95003C9D30 = {
 			isa = PBXGroup;
 			children = (
-				D46770552EE20C95003C9D30 /* BGEthGasWidget */,
-				D467706B2EE20ECA003C9D30 /* BGEthGasWidgetExtension */,
+				D46770552EE20C95003C9D30 /* BGEthDashboard */,
+				D467706B2EE20ECA003C9D30 /* BGEthDashboardWidgetExtension */,
 				D46770662EE20ECA003C9D30 /* Frameworks */,
 				D46770542EE20C95003C9D30 /* Products */,
 			);
@@ -102,8 +102,8 @@
 		D46770542EE20C95003C9D30 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D46770532EE20C95003C9D30 /* BGEthGasWidget.app */,
-				D46770652EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension.appex */,
+				D46770532EE20C95003C9D30 /* BGEthDashboard.app */,
+				D46770652EE20ECA003C9D30 /* BGEthDashboardExtensionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,9 +120,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D46770522EE20C95003C9D30 /* BGEthGasWidget */ = {
+		D46770522EE20C95003C9D30 /* BGEthDashboard */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D467705E2EE20C9A003C9D30 /* Build configuration list for PBXNativeTarget "BGEthGasWidget" */;
+			buildConfigurationList = D467705E2EE20C9A003C9D30 /* Build configuration list for PBXNativeTarget "BGEthDashboard" */;
 			buildPhases = (
 				D467704F2EE20C95003C9D30 /* Sources */,
 				D46770502EE20C95003C9D30 /* Frameworks */,
@@ -135,18 +135,18 @@
 				D46770742EE20ECD003C9D30 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D46770552EE20C95003C9D30 /* BGEthGasWidget */,
+				D46770552EE20C95003C9D30 /* BGEthDashboard */,
 			);
-			name = BGEthGasWidget;
+			name = BGEthDashboard;
 			packageProductDependencies = (
 			);
 			productName = BGEthGasWidget;
-			productReference = D46770532EE20C95003C9D30 /* BGEthGasWidget.app */;
+			productReference = D46770532EE20C95003C9D30 /* BGEthDashboard.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D46770642EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension */ = {
+		D46770642EE20ECA003C9D30 /* BGEthDashboardExtensionExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D46770772EE20ECD003C9D30 /* Build configuration list for PBXNativeTarget "BGEthGasWidgetExtensionExtension" */;
+			buildConfigurationList = D46770772EE20ECD003C9D30 /* Build configuration list for PBXNativeTarget "BGEthDashboardExtensionExtension" */;
 			buildPhases = (
 				D46770612EE20ECA003C9D30 /* Sources */,
 				D46770622EE20ECA003C9D30 /* Frameworks */,
@@ -157,13 +157,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				D467706B2EE20ECA003C9D30 /* BGEthGasWidgetExtension */,
+				D467706B2EE20ECA003C9D30 /* BGEthDashboardWidgetExtension */,
 			);
-			name = BGEthGasWidgetExtensionExtension;
+			name = BGEthDashboardExtensionExtension;
 			packageProductDependencies = (
 			);
 			productName = BGEthGasWidgetExtensionExtension;
-			productReference = D46770652EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension.appex */;
+			productReference = D46770652EE20ECA003C9D30 /* BGEthDashboardExtensionExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -184,7 +184,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D467704E2EE20C95003C9D30 /* Build configuration list for PBXProject "BGEthGasWidget" */;
+			buildConfigurationList = D467704E2EE20C95003C9D30 /* Build configuration list for PBXProject "BGEthDashboard" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -198,8 +198,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D46770522EE20C95003C9D30 /* BGEthGasWidget */,
-				D46770642EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension */,
+				D46770522EE20C95003C9D30 /* BGEthDashboard */,
+				D46770642EE20ECA003C9D30 /* BGEthDashboardExtensionExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -241,7 +241,7 @@
 /* Begin PBXTargetDependency section */
 		D46770742EE20ECD003C9D30 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D46770642EE20ECA003C9D30 /* BGEthGasWidgetExtensionExtension */;
+			target = D46770642EE20ECA003C9D30 /* BGEthDashboardExtensionExtension */;
 			targetProxy = D46770732EE20ECD003C9D30 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -387,7 +387,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthGasWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthDashboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -429,7 +429,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthGasWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthDashboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -450,13 +450,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = BGEthGasWidgetExtension/BGEthGasWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BGEthDashboardWidgetExtension/BGEthDashboardWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BGEthGasWidgetExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = BGEthGasWidgetExtension;
+				INFOPLIST_FILE = BGEthDashboardWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BGEthDashboardWidgetExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -471,7 +471,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthGasWidget.BGEthGasWidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthDashboard.BGEthDashboardWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
@@ -491,13 +491,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = BGEthGasWidgetExtension/BGEthGasWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BGEthDashboardWidgetExtension/BGEthDashboardWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BGEthGasWidgetExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = BGEthGasWidgetExtension;
+				INFOPLIST_FILE = BGEthDashboardWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BGEthDashboardWidgetExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -512,7 +512,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthGasWidget.BGEthGasWidgetExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthDashboard.BGEthDashboardWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
@@ -530,7 +530,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D467704E2EE20C95003C9D30 /* Build configuration list for PBXProject "BGEthGasWidget" */ = {
+		D467704E2EE20C95003C9D30 /* Build configuration list for PBXProject "BGEthDashboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D467705C2EE20C9A003C9D30 /* Debug */,
@@ -539,7 +539,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D467705E2EE20C9A003C9D30 /* Build configuration list for PBXNativeTarget "BGEthGasWidget" */ = {
+		D467705E2EE20C9A003C9D30 /* Build configuration list for PBXNativeTarget "BGEthDashboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D467705F2EE20C9A003C9D30 /* Debug */,
@@ -548,7 +548,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D46770772EE20ECD003C9D30 /* Build configuration list for PBXNativeTarget "BGEthGasWidgetExtensionExtension" */ = {
+		D46770772EE20ECD003C9D30 /* Build configuration list for PBXNativeTarget "BGEthDashboardExtensionExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D46770782EE20ECD003C9D30 /* Debug */,

@@ -11,7 +11,7 @@ struct RefreshWidgetIntent: AppIntent {
     @MainActor
     func perform() async throws -> some IntentResult {
         // Reload all widget timelines
-        WidgetCenter.shared.reloadTimelines(ofKind: "BGEthGasWidgetExtension")
+        WidgetCenter.shared.reloadTimelines(ofKind: "BGEthDashboardWidgetExtension")
         return .result()
     }
 }
@@ -328,8 +328,8 @@ struct EthGasWidgetEntryView: View {
 }
 
 // 4. The widget declaration
-struct BGEthGasWidgetExtension: Widget {
-    let kind: String = "BGEthGasWidgetExtension"
+struct BGEthDashboardWidgetExtension: Widget {
+    let kind: String = "BGEthDashboardWidgetExtension"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: EthGasProvider()) { entry in
@@ -342,7 +342,7 @@ struct BGEthGasWidgetExtension: Widget {
 }
 
 // 5. Preview in Xcode canvas
-struct BGEthGasWidgetExtension_Previews: PreviewProvider {
+struct BGEthDashboardWidgetExtension_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             EthGasWidgetEntryView(
