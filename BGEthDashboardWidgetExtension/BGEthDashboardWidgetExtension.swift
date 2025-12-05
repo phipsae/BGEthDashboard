@@ -17,8 +17,11 @@ struct RefreshWidgetIntent: AppIntent {
 }
 
 // Force the intent to run in the main app process to avoid widget extension XPC issues
+// Note: ForegroundContinuableIntent is only available on iOS, not macOS
+#if os(iOS)
 @available(iOSApplicationExtension, unavailable)
 extension RefreshWidgetIntent: ForegroundContinuableIntent {}
+#endif
 
 // MARK: - API Response Models
 
@@ -252,16 +255,23 @@ struct EthGasWidgetEntryView: View {
     // MARK: - Medium Widget
     var mediumWidget: some View {
         ZStack {
-            HStack {
-                // BG Logo on left
-                Image("BGLogo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 44, height: 44)
-
+            // BG Logo - upper right corner
+            VStack {
+                HStack {
+                    Spacer()
+                    Image("BGLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 18, height: 18)
+                }
                 Spacer()
+            }
+            .padding(.top, -4)
+            .padding(.trailing, -4)
 
-                // Center - ETH Price
+            // Main content - centered
+            HStack(alignment: .center, spacing: 0) {
+                // ETH Price section
                 VStack(alignment: .center, spacing: 2) {
                     Text("Ethereum")
                         .font(.system(size: 11, weight: .semibold, design: .rounded))
@@ -277,10 +287,15 @@ struct EthGasWidgetEntryView: View {
                         .font(.system(size: 10, weight: .medium, design: .rounded))
                         .foregroundStyle(.white.opacity(0.4))
                 }
+                .frame(maxWidth: .infinity)
 
-                Spacer()
+                // Divider - centered with content
+                Rectangle()
+                    .fill(.white.opacity(0.15))
+                    .frame(width: 1)
+                    .frame(maxHeight: 60)
 
-                // Right side - Gas
+                // Gas section
                 VStack(alignment: .center, spacing: 4) {
                     HStack(spacing: 4) {
                         Image(systemName: "fuelpump.fill")
@@ -310,8 +325,8 @@ struct EthGasWidgetEntryView: View {
                         }
                     }
                 }
+                .frame(maxWidth: .infinity)
             }
-            .frame(maxWidth: .infinity)
 
             // Refresh button - bottom right
             VStack {
