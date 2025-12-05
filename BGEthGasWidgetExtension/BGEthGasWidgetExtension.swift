@@ -52,14 +52,14 @@ struct EthGasEntry: TimelineEntry {
 struct EthGasProvider: TimelineProvider {
     // Placeholder for widget gallery
     func placeholder(in context: Context) -> EthGasEntry {
-        EthGasEntry(date: Date(), ethPrice: "$3,000", gasPrice: "30 gwei", gasPriceValue: 30)
+        EthGasEntry(date: Date(), ethPrice: "$3,000", gasPrice: "30", gasPriceValue: 30)
     }
 
     // Used for previews and quick glances
     func getSnapshot(in context: Context, completion: @escaping (EthGasEntry) -> ()) {
         if context.isPreview {
             // Return placeholder for preview
-            let entry = EthGasEntry(date: Date(), ethPrice: "$3,000", gasPrice: "30 gwei", gasPriceValue: 30)
+            let entry = EthGasEntry(date: Date(), ethPrice: "$3,000", gasPrice: "30", gasPriceValue: 30)
             completion(entry)
         } else {
             // Fetch real data for snapshot
@@ -92,22 +92,22 @@ struct EthGasProvider: TimelineProvider {
 
             let (ethResponse, gasResponse) = try await (ethPriceTask, gasPriceTask)
 
-            // Format ETH price with $ and commas
+            // Format ETH price with $ and commas (no decimals)
             let formatter = NumberFormatter()
             formatter.numberStyle = .currency
             formatter.currencySymbol = "$"
-            formatter.maximumFractionDigits = 2
-            let ethPriceFormatted = formatter.string(from: NSNumber(value: ethResponse.priceUSD)) ?? "$\(ethResponse.priceUSD)"
+            formatter.maximumFractionDigits = 0
+            let ethPriceFormatted = formatter.string(from: NSNumber(value: ethResponse.priceUSD)) ?? "$\(Int(ethResponse.priceUSD))"
 
             // Format gas price - use baseFeePerGasGwei for more accurate display
             let gasPriceGwei = gasResponse.baseFeePerGasGwei
             let gasPriceFormatted: String
             if gasPriceGwei < 1 {
-                gasPriceFormatted = String(format: "%.3f gwei", gasPriceGwei)
+                gasPriceFormatted = String(format: "%.3f", gasPriceGwei)
             } else if gasPriceGwei < 10 {
-                gasPriceFormatted = String(format: "%.2f gwei", gasPriceGwei)
+                gasPriceFormatted = String(format: "%.2f", gasPriceGwei)
             } else {
-                gasPriceFormatted = String(format: "%.0f gwei", gasPriceGwei)
+                gasPriceFormatted = String(format: "%.0f", gasPriceGwei)
             }
 
             return EthGasEntry(
@@ -170,14 +170,14 @@ struct EthGasWidgetEntryView: View {
 
     // MARK: - Small Widget
     var smallWidget: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 4) {
             // Header with BG Logo
             HStack(spacing: 6) {
                 Image("BGLogo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)
-                Text("BG")
+                Text("Ethereum")
                     .font(.system(size: 12, weight: .bold, design: .rounded))
                     .foregroundStyle(.white.opacity(0.7))
             }
@@ -186,17 +186,21 @@ struct EthGasWidgetEntryView: View {
 
             // Price
             Text(entry.ethPrice)
-                .font(.system(size: 26, weight: .bold, design: .rounded))
+                .font(.system(size: 24, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
 
             // Gas
             HStack(spacing: 4) {
                 Image(systemName: "fuelpump.fill")
                     .font(.system(size: 10))
                     .foregroundStyle(.cyan.opacity(0.8))
-                Text(entry.gasPrice)
-                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                Text("\(entry.gasPrice) gwei")
+                    .font(.system(size: 12, weight: .medium, design: .rounded))
                     .foregroundStyle(.white.opacity(0.8))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
             }
 
             Spacer()
@@ -207,27 +211,31 @@ struct EthGasWidgetEntryView: View {
                 .foregroundStyle(.white.opacity(0.4))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(14)
+        .padding(12)
     }
 
     // MARK: - Medium Widget
     var mediumWidget: some View {
-        HStack(spacing: 16) {
+        HStack {
             // BG Logo on left
             Image("BGLogo")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 50, height: 50)
+                .frame(width: 44, height: 44)
+
+            Spacer()
 
             // Center - ETH Price
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .center, spacing: 2) {
                 Text("Ethereum")
-                    .font(.system(size: 12, weight: .semibold, design: .rounded))
+                    .font(.system(size: 11, weight: .semibold, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
 
                 Text(entry.ethPrice)
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .font(.system(size: 28, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
 
                 Text(entry.date, style: .time)
                     .font(.system(size: 10, weight: .medium, design: .rounded))
@@ -237,32 +245,38 @@ struct EthGasWidgetEntryView: View {
             Spacer()
 
             // Right side - Gas
-            VStack(alignment: .trailing, spacing: 6) {
-                HStack(spacing: 5) {
+            VStack(alignment: .center, spacing: 4) {
+                HStack(spacing: 4) {
                     Image(systemName: "fuelpump.fill")
-                        .font(.system(size: 12))
+                        .font(.system(size: 11))
                         .foregroundStyle(.cyan)
                     Text("Gas")
-                        .font(.system(size: 12, weight: .semibold, design: .rounded))
+                        .font(.system(size: 11, weight: .semibold, design: .rounded))
                         .foregroundStyle(.white.opacity(0.6))
                 }
 
                 Text(entry.gasPrice)
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .font(.system(size: 20, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+
+                Text("gwei")
+                    .font(.system(size: 11, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.6))
 
                 // Gas indicator bar (based on actual gas price)
                 HStack(spacing: 3) {
                     ForEach(0..<5) { i in
                         RoundedRectangle(cornerRadius: 2)
                             .fill(i < gasLevel ? Color.cyan : Color.white.opacity(0.2))
-                            .frame(width: 10, height: 4)
+                            .frame(width: 8, height: 4)
                     }
                 }
             }
         }
         .frame(maxWidth: .infinity)
-        .padding(14)
+        .padding(12)
     }
 }
 
@@ -287,8 +301,8 @@ struct BGEthGasWidgetExtension_Previews: PreviewProvider {
             EthGasWidgetEntryView(
                 entry: EthGasEntry(
                     date: Date(),
-                    ethPrice: "$3,128.66",
-                    gasPrice: "0.024 gwei",
+                    ethPrice: "$3,129",
+                    gasPrice: "0.024",
                     gasPriceValue: 0.024
                 )
             )
@@ -298,8 +312,8 @@ struct BGEthGasWidgetExtension_Previews: PreviewProvider {
             EthGasWidgetEntryView(
                 entry: EthGasEntry(
                     date: Date(),
-                    ethPrice: "$3,128.66",
-                    gasPrice: "0.024 gwei",
+                    ethPrice: "$3,129",
+                    gasPrice: "0.024",
                     gasPriceValue: 0.024
                 )
             )
