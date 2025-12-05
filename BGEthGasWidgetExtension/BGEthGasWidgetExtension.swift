@@ -1,41 +1,131 @@
 import WidgetKit
 import SwiftUI
 
-// 1. What one "snapshot" of data looks like
+// MARK: - API Response Models
+
+struct EthPriceResponse: Codable {
+    let priceUSD: Double
+    let timestamp: Int64
+}
+
+struct GasPriceResponse: Codable {
+    let gasPrice: String
+    let gasPriceGwei: Double
+    let baseFeePerGas: String
+    let baseFeePerGasGwei: Double
+    let timestamp: Int64
+}
+
+// MARK: - API Service
+
+struct BGAPIService {
+    static let baseURL = "https://bgethdashboardbackend-production.up.railway.app/api"
+
+    static func fetchEthPrice() async throws -> EthPriceResponse {
+        guard let url = URL(string: "\(baseURL)/eth-price") else {
+            throw URLError(.badURL)
+        }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode(EthPriceResponse.self, from: data)
+    }
+
+    static func fetchGasPrice() async throws -> GasPriceResponse {
+        guard let url = URL(string: "\(baseURL)/gas-price") else {
+            throw URLError(.badURL)
+        }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode(GasPriceResponse.self, from: data)
+    }
+}
+
+// MARK: - Timeline Entry
+
 struct EthGasEntry: TimelineEntry {
     let date: Date
     let ethPrice: String
     let gasPrice: String
+    let gasPriceValue: Double // For the gas indicator bar
 }
 
-// 2. How the system gets data over time
+// MARK: - Timeline Provider
+
 struct EthGasProvider: TimelineProvider {
     // Placeholder for widget gallery
     func placeholder(in context: Context) -> EthGasEntry {
-        EthGasEntry(date: Date(), ethPrice: "$3,000", gasPrice: "30 gwei")
+        EthGasEntry(date: Date(), ethPrice: "$3,000", gasPrice: "30 gwei", gasPriceValue: 30)
     }
 
-    // Used for previews
+    // Used for previews and quick glances
     func getSnapshot(in context: Context, completion: @escaping (EthGasEntry) -> ()) {
-        let entry = EthGasEntry(date: Date(), ethPrice: "$3,000", gasPrice: "30 gwei")
-        completion(entry)
+        if context.isPreview {
+            // Return placeholder for preview
+            let entry = EthGasEntry(date: Date(), ethPrice: "$3,000", gasPrice: "30 gwei", gasPriceValue: 30)
+            completion(entry)
+        } else {
+            // Fetch real data for snapshot
+            Task {
+                let entry = await fetchData()
+                completion(entry)
+            }
+        }
     }
 
-    // Main timeline – here we will later fetch real data
+    // Main timeline – fetches real data from API
     func getTimeline(in context: Context, completion: @escaping (Timeline<EthGasEntry>) -> ()) {
+        Task {
+            let entry = await fetchData()
+
+            // Refresh again in 5 minutes
+            let nextUpdate = Calendar.current.date(byAdding: .minute, value: 5, to: entry.date)!
+            let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+            completion(timeline)
+        }
+    }
+
+    // Fetch data from both APIs
+    private func fetchData() async -> EthGasEntry {
         let currentDate = Date()
 
-        // TODO: later replace these with real API values
-        let entry = EthGasEntry(
-            date: currentDate,
-            ethPrice: "$3,000",
-            gasPrice: "30 gwei"
-        )
+        do {
+            async let ethPriceTask = BGAPIService.fetchEthPrice()
+            async let gasPriceTask = BGAPIService.fetchGasPrice()
 
-        // Refresh again in 10 minutes
-        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 10, to: currentDate)!
-        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-        completion(timeline)
+            let (ethResponse, gasResponse) = try await (ethPriceTask, gasPriceTask)
+
+            // Format ETH price with $ and commas
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.currencySymbol = "$"
+            formatter.maximumFractionDigits = 2
+            let ethPriceFormatted = formatter.string(from: NSNumber(value: ethResponse.priceUSD)) ?? "$\(ethResponse.priceUSD)"
+
+            // Format gas price - use baseFeePerGasGwei for more accurate display
+            let gasPriceGwei = gasResponse.baseFeePerGasGwei
+            let gasPriceFormatted: String
+            if gasPriceGwei < 1 {
+                gasPriceFormatted = String(format: "%.3f gwei", gasPriceGwei)
+            } else if gasPriceGwei < 10 {
+                gasPriceFormatted = String(format: "%.2f gwei", gasPriceGwei)
+            } else {
+                gasPriceFormatted = String(format: "%.0f gwei", gasPriceGwei)
+            }
+
+            return EthGasEntry(
+                date: currentDate,
+                ethPrice: ethPriceFormatted,
+                gasPrice: gasPriceFormatted,
+                gasPriceValue: gasPriceGwei
+            )
+        } catch {
+            // Return fallback data on error
+            print("Widget API Error: \(error)")
+            return EthGasEntry(
+                date: currentDate,
+                ethPrice: "—",
+                gasPrice: "—",
+                gasPriceValue: 0
+            )
+        }
     }
 }
 
@@ -43,6 +133,17 @@ struct EthGasProvider: TimelineProvider {
 struct EthGasWidgetEntryView: View {
     @Environment(\.widgetFamily) var family
     var entry: EthGasProvider.Entry
+
+    // Calculate gas level (1-5) based on gwei price
+    // <1 gwei = 1, 1-10 gwei = 2, 10-30 gwei = 3, 30-100 gwei = 4, >100 gwei = 5
+    var gasLevel: Int {
+        let gwei = entry.gasPriceValue
+        if gwei < 1 { return 1 }
+        else if gwei < 10 { return 2 }
+        else if gwei < 30 { return 3 }
+        else if gwei < 100 { return 4 }
+        else { return 5 }
+    }
 
     var body: some View {
         Group {
@@ -150,11 +251,11 @@ struct EthGasWidgetEntryView: View {
                     .font(.system(size: 24, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
 
-                // Gas indicator bar
+                // Gas indicator bar (based on actual gas price)
                 HStack(spacing: 3) {
                     ForEach(0..<5) { i in
                         RoundedRectangle(cornerRadius: 2)
-                            .fill(i < 2 ? Color.cyan : Color.white.opacity(0.2))
+                            .fill(i < gasLevel ? Color.cyan : Color.white.opacity(0.2))
                             .frame(width: 10, height: 4)
                     }
                 }
@@ -186,8 +287,9 @@ struct BGEthGasWidgetExtension_Previews: PreviewProvider {
             EthGasWidgetEntryView(
                 entry: EthGasEntry(
                     date: Date(),
-                    ethPrice: "$3,000",
-                    gasPrice: "30 gwei"
+                    ethPrice: "$3,128.66",
+                    gasPrice: "0.024 gwei",
+                    gasPriceValue: 0.024
                 )
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
@@ -196,8 +298,9 @@ struct BGEthGasWidgetExtension_Previews: PreviewProvider {
             EthGasWidgetEntryView(
                 entry: EthGasEntry(
                     date: Date(),
-                    ethPrice: "$3,000",
-                    gasPrice: "30 gwei"
+                    ethPrice: "$3,128.66",
+                    gasPrice: "0.024 gwei",
+                    gasPriceValue: 0.024
                 )
             )
             .previewContext(WidgetPreviewContext(family: .systemMedium))
