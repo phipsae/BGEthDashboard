@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var logoOpacity: Double = 0
     @State private var textOpacity: Double = 0
     @State private var instructionsOpacity: Double = 0
+    @State private var refreshID = UUID()
 
     var body: some View {
         ZStack {
@@ -40,25 +41,20 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                Spacer()
+            ScrollView {
+                VStack(spacing: 0) {
+                // Logo + title header
+                HStack(spacing: 12) {
+                    Image("BGLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 44, height: 44)
+                        .scaleEffect(logoScale)
+                        .opacity(logoOpacity)
+                        .shadow(color: .purple.opacity(0.4), radius: 12, x: 0, y: 4)
 
-                // Logo
-                Image("BGLogo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 240, height: 240)
-                    .scaleEffect(logoScale)
-                    .opacity(logoOpacity)
-                    .shadow(color: .purple.opacity(0.4), radius: 40, x: 0, y: 15)
-
-                Spacer()
-                    .frame(height: 40)
-
-                // Title
-                VStack(spacing: 8) {
-                    Text("BG Eth Tracker")
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                    Text("ETH Tracker")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [.white, .white.opacity(0.8)],
@@ -66,11 +62,24 @@ struct ContentView: View {
                                 endPoint: .trailing
                             )
                         )
+                        .opacity(textOpacity)
+
+                    Spacer()
                 }
-                .opacity(textOpacity)
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
 
                 Spacer()
-                    .frame(height: 50)
+                    .frame(height: 20)
+
+                // Live dashboard
+                DashboardView()
+                    .id(refreshID)
+                    .opacity(textOpacity)
+                    .padding(.horizontal, 24)
+
+                Spacer()
+                    .frame(height: 24)
 
                 // Instructions card
                 VStack(spacing: 20) {
@@ -133,6 +142,7 @@ struct ContentView: View {
                 .padding(.horizontal, 24)
 
                 Spacer()
+                    .frame(height: 24)
 
                 // Footer
                 Text("Track ETH price & gas fees at a glance")
@@ -140,6 +150,10 @@ struct ContentView: View {
                     .foregroundStyle(.white.opacity(0.4))
                     .opacity(instructionsOpacity)
                     .padding(.bottom, 30)
+                }
+            }
+            .refreshable {
+                refreshID = UUID()
             }
         }
         .onAppear {

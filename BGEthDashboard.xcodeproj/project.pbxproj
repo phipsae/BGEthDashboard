@@ -67,6 +67,11 @@
 			path = BGEthDashboardWidgetExtension;
 			sourceTree = "<group>";
 		};
+		D4AABB012EE20C95003C9D30 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +99,7 @@
 			children = (
 				D46770552EE20C95003C9D30 /* BGEthDashboard */,
 				D467706B2EE20ECA003C9D30 /* BGEthDashboardWidgetExtension */,
+				D4AABB012EE20C95003C9D30 /* Shared */,
 				D46770662EE20ECA003C9D30 /* Frameworks */,
 				D46770542EE20C95003C9D30 /* Products */,
 			);
@@ -136,6 +142,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				D46770552EE20C95003C9D30 /* BGEthDashboard */,
+				D4AABB012EE20C95003C9D30 /* Shared */,
 			);
 			name = BGEthDashboard;
 			packageProductDependencies = (
@@ -158,6 +165,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				D467706B2EE20ECA003C9D30 /* BGEthDashboardWidgetExtension */,
+				D4AABB012EE20C95003C9D30 /* Shared */,
 			);
 			name = BGEthDashboardExtensionExtension;
 			packageProductDependencies = (
@@ -388,7 +396,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthDashboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -432,7 +440,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthDashboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -475,7 +483,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthDashboard.BGEthDashboardWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -517,7 +525,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = phipsae.BGEthDashboard.BGEthDashboardWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
