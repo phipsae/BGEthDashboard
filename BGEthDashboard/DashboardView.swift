@@ -65,8 +65,8 @@ struct DashboardView: View {
                 .accessibilityLabel("24 hour price chart")
             }
 
-            // Stat grid: cells are left-aligned, the grid as a whole is centered
-            Grid(alignment: .leading, horizontalSpacing: 48, verticalSpacing: 12) {
+            // Stat grid: two full-width columns matching the sparkline width
+            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 12) {
                 GridRow {
                     AppStatCell(
                         title: "Gas",
@@ -188,6 +188,7 @@ struct AppStatCell: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title) \(value)")
     }

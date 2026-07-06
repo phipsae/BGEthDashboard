@@ -171,6 +171,7 @@ struct StatCell: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title) \(value)")
     }
@@ -368,8 +369,8 @@ struct LargeWidgetView: View {
                 Divider()
                     .background(.white.opacity(0.15))
 
-                // Stat grid: cells left-aligned, grid centered as a block
-                Grid(alignment: .leading, horizontalSpacing: 36, verticalSpacing: 12) {
+                // Stat grid: two full-width columns aligned with the divider above
+                Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 12) {
                     GridRow {
                         StatCell(
                             title: "Gas",
@@ -407,7 +408,6 @@ struct LargeWidgetView: View {
                         )
                     }
                 }
-                .frame(maxWidth: .infinity)
 
                 Spacer(minLength: 0)
 
