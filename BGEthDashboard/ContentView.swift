@@ -12,7 +12,7 @@ struct ContentView: View {
     @State private var logoOpacity: Double = 0
     @State private var textOpacity: Double = 0
     @State private var instructionsOpacity: Double = 0
-    @State private var instructionsExpanded = true
+    @State private var instructionsExpanded = false
     @State private var refreshID = UUID()
 
     var body: some View {
