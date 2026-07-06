@@ -57,9 +57,12 @@ extension DashboardResponse.Gas {
 // MARK: - Shared formatting
 
 enum DashboardFormat {
+    private static let usLocale = Locale(identifier: "en_US")
+
     static func price(_ usd: Double) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
+        formatter.locale = usLocale
         formatter.currencySymbol = "$"
         formatter.maximumFractionDigits = 0
         return formatter.string(from: NSNumber(value: usd)) ?? "$\(Int(usd))"
@@ -77,7 +80,11 @@ enum DashboardFormat {
 
     /// Compact notation, e.g. 40_543_733 -> "40.5M"
     static func compact(_ value: Double) -> String {
-        value.formatted(.number.notation(.compactName).precision(.significantDigits(3)))
+        value.formatted(
+            .number.notation(.compactName)
+                .precision(.significantDigits(3))
+                .locale(usLocale)
+        )
     }
 
     /// Compact USD, e.g. 39_596_338_119 -> "$39.6B"

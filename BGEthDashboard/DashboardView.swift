@@ -58,6 +58,7 @@ struct DashboardView: View {
                 .chartYAxis(.hidden)
                 .chartYScale(domain: (min * 0.999)...(max * 1.001))
                 .frame(height: 70)
+                .clipped()
                 .accessibilityLabel("24 hour price chart")
             }
 
