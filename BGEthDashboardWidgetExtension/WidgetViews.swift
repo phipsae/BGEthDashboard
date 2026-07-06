@@ -154,10 +154,9 @@ struct StatCell: View {
     let title: String
     let value: String
     let icon: String
-    var alignment: HorizontalAlignment = .leading
 
     var body: some View {
-        VStack(alignment: alignment, spacing: 3) {
+        VStack(alignment: .leading, spacing: 3) {
             HStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 10))
@@ -172,7 +171,6 @@ struct StatCell: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
-        .frame(maxWidth: .infinity, alignment: alignment == .trailing ? .trailing : .leading)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title) \(value)")
     }
@@ -370,8 +368,8 @@ struct LargeWidgetView: View {
                 Divider()
                     .background(.white.opacity(0.15))
 
-                // Stat grid: two full-width columns aligned with the divider above
-                Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 12) {
+                // Stat grid: cells left-aligned, grid centered as a block
+                Grid(alignment: .leading, horizontalSpacing: 36, verticalSpacing: 12) {
                     GridRow {
                         StatCell(
                             title: "Gas",
@@ -381,8 +379,7 @@ struct LargeWidgetView: View {
                         StatCell(
                             title: "Staked ETH",
                             value: entry.data?.staking.map { DashboardFormat.compact($0.totalStakedEth) } ?? "—",
-                            icon: "lock.fill",
-                            alignment: .trailing
+                            icon: "lock.fill"
                         )
                     }
                     GridRow {
@@ -394,8 +391,7 @@ struct LargeWidgetView: View {
                         StatCell(
                             title: "Staking APR",
                             value: entry.data?.staking.map { String(format: "%.2f%%", $0.aprPercent) } ?? "—",
-                            icon: "percent",
-                            alignment: .trailing
+                            icon: "percent"
                         )
                     }
                     GridRow {
@@ -407,11 +403,11 @@ struct LargeWidgetView: View {
                         StatCell(
                             title: "TVL 24h",
                             value: entry.data?.tvl.map { DashboardFormat.changePct($0.change24hPct) } ?? "—",
-                            icon: "chart.line.uptrend.xyaxis",
-                            alignment: .trailing
+                            icon: "chart.line.uptrend.xyaxis"
                         )
                     }
                 }
+                .frame(maxWidth: .infinity)
 
                 Spacer(minLength: 0)
 

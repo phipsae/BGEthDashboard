@@ -66,8 +66,8 @@ struct DashboardView: View {
                 .accessibilityLabel("24 hour price chart")
             }
 
-            // Stat grid: two full-width columns matching the sparkline width
-            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 12) {
+            // Stat grid: cells are left-aligned, the grid as a whole is centered
+            Grid(alignment: .leading, horizontalSpacing: 48, verticalSpacing: 12) {
                 GridRow {
                     AppStatCell(
                         title: "Gas",
@@ -77,8 +77,7 @@ struct DashboardView: View {
                     AppStatCell(
                         title: "Staked ETH",
                         value: data?.staking.map { DashboardFormat.compact($0.totalStakedEth) } ?? "—",
-                        icon: "lock.fill",
-                        alignment: .trailing
+                        icon: "lock.fill"
                     )
                 }
                 GridRow {
@@ -90,8 +89,7 @@ struct DashboardView: View {
                     AppStatCell(
                         title: "Staking APR",
                         value: data?.staking.map { String(format: "%.2f%%", $0.aprPercent) } ?? "—",
-                        icon: "percent",
-                        alignment: .trailing
+                        icon: "percent"
                     )
                 }
                 GridRow {
@@ -103,8 +101,7 @@ struct DashboardView: View {
                     AppStatCell(
                         title: "TVL 24h",
                         value: data?.tvl.map { DashboardFormat.changePct($0.change24hPct) } ?? "—",
-                        icon: "chart.line.uptrend.xyaxis",
-                        alignment: .trailing
+                        icon: "chart.line.uptrend.xyaxis"
                     )
                 }
             }
@@ -182,10 +179,9 @@ struct AppStatCell: View {
     let title: String
     let value: String
     let icon: String
-    var alignment: HorizontalAlignment = .leading
 
     var body: some View {
-        VStack(alignment: alignment, spacing: 4) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 11))
@@ -202,7 +198,6 @@ struct AppStatCell: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
-        .frame(maxWidth: .infinity, alignment: alignment == .trailing ? .trailing : .leading)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title) \(value)")
     }
