@@ -154,9 +154,10 @@ struct StatCell: View {
     let title: String
     let value: String
     let icon: String
+    var alignment: HorizontalAlignment = .leading
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 3) {
+        VStack(alignment: alignment, spacing: 3) {
             HStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 10))
@@ -171,7 +172,7 @@ struct StatCell: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: alignment == .trailing ? .trailing : .leading)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title) \(value)")
     }
@@ -380,7 +381,8 @@ struct LargeWidgetView: View {
                         StatCell(
                             title: "Staked ETH",
                             value: entry.data?.staking.map { DashboardFormat.compact($0.totalStakedEth) } ?? "—",
-                            icon: "lock.fill"
+                            icon: "lock.fill",
+                            alignment: .trailing
                         )
                     }
                     GridRow {
@@ -392,7 +394,8 @@ struct LargeWidgetView: View {
                         StatCell(
                             title: "Staking APR",
                             value: entry.data?.staking.map { String(format: "%.2f%%", $0.aprPercent) } ?? "—",
-                            icon: "percent"
+                            icon: "percent",
+                            alignment: .trailing
                         )
                     }
                     GridRow {
@@ -404,7 +407,8 @@ struct LargeWidgetView: View {
                         StatCell(
                             title: "TVL 24h",
                             value: entry.data?.tvl.map { DashboardFormat.changePct($0.change24hPct) } ?? "—",
-                            icon: "chart.line.uptrend.xyaxis"
+                            icon: "chart.line.uptrend.xyaxis",
+                            alignment: .trailing
                         )
                     }
                 }

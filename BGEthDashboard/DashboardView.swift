@@ -9,6 +9,7 @@ import Charts
 struct DashboardView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var data: DashboardResponse?
+    @State private var lastUpdated: Date?
     @State private var failedToLoad = false
 
     private let refreshInterval: TimeInterval = 60
@@ -76,7 +77,8 @@ struct DashboardView: View {
                     AppStatCell(
                         title: "Staked ETH",
                         value: data?.staking.map { DashboardFormat.compact($0.totalStakedEth) } ?? "—",
-                        icon: "lock.fill"
+                        icon: "lock.fill",
+                        alignment: .trailing
                     )
                 }
                 GridRow {
@@ -88,7 +90,8 @@ struct DashboardView: View {
                     AppStatCell(
                         title: "Staking APR",
                         value: data?.staking.map { String(format: "%.2f%%", $0.aprPercent) } ?? "—",
-                        icon: "percent"
+                        icon: "percent",
+                        alignment: .trailing
                     )
                 }
                 GridRow {
@@ -100,7 +103,8 @@ struct DashboardView: View {
                     AppStatCell(
                         title: "TVL 24h",
                         value: data?.tvl.map { DashboardFormat.changePct($0.change24hPct) } ?? "—",
-                        icon: "chart.line.uptrend.xyaxis"
+                        icon: "chart.line.uptrend.xyaxis",
+                        alignment: .trailing
                     )
                 }
             }
@@ -109,6 +113,14 @@ struct DashboardView: View {
                 Text(data == nil ? "Couldn't load data. Pull to retry." : "Showing last loaded data. Pull to retry.")
                     .font(.system(size: 12, weight: .medium, design: .rounded))
                     .foregroundStyle(.orange.opacity(0.8))
+            } else if let lastUpdated {
+                HStack(spacing: 3) {
+                    Text("Updated")
+                    Text(lastUpdated, style: .time)
+                }
+                .font(.system(size: 11, weight: .medium, design: .rounded))
+                .foregroundStyle(.white.opacity(0.4))
+                .accessibilityElement(children: .combine)
             }
         }
         .padding(20)
@@ -158,6 +170,7 @@ struct DashboardView: View {
         do {
             let fresh = try await DashboardAPIService.fetchDashboard()
             withAnimation { data = fresh }
+            lastUpdated = Date()
             failedToLoad = false
         } catch {
             failedToLoad = true
@@ -169,9 +182,10 @@ struct AppStatCell: View {
     let title: String
     let value: String
     let icon: String
+    var alignment: HorizontalAlignment = .leading
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: alignment, spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 11))
@@ -188,7 +202,7 @@ struct AppStatCell: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: alignment == .trailing ? .trailing : .leading)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title) \(value)")
     }
