@@ -62,8 +62,8 @@ struct DashboardView: View {
                 .accessibilityLabel("24 hour price chart")
             }
 
-            // Stat grid
-            Grid(alignment: .center, horizontalSpacing: 12, verticalSpacing: 12) {
+            // Stat grid: cells are left-aligned, the grid as a whole is centered
+            Grid(alignment: .leading, horizontalSpacing: 48, verticalSpacing: 12) {
                 GridRow {
                     AppStatCell(
                         title: "Gas",
@@ -144,7 +144,7 @@ struct AppStatCell: View {
     let icon: String
 
     var body: some View {
-        VStack(alignment: .center, spacing: 4) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 11))
@@ -161,7 +161,6 @@ struct AppStatCell: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
-        .frame(maxWidth: .infinity, alignment: .center)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title) \(value)")
     }
