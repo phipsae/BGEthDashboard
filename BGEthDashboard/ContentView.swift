@@ -97,6 +97,25 @@ struct ContentView: View {
                         .background(.white.opacity(0.1))
 
                     VStack(alignment: .leading, spacing: 16) {
+                        #if os(macOS)
+                        InstructionRow(
+                            step: "1",
+                            icon: "hand.tap",
+                            text: "Right-click your desktop and choose Edit Widgets"
+                        )
+
+                        InstructionRow(
+                            step: "2",
+                            icon: "magnifyingglass",
+                            text: "Search for \"ETH Tracker\""
+                        )
+
+                        InstructionRow(
+                            step: "3",
+                            icon: "checkmark.circle.fill",
+                            text: "Choose a size and click + to add it"
+                        )
+                        #else
                         InstructionRow(
                             step: "1",
                             icon: "hand.tap",
@@ -112,7 +131,7 @@ struct ContentView: View {
                         InstructionRow(
                             step: "3",
                             icon: "magnifyingglass",
-                            text: "Search for \"Eth Tracker\""
+                            text: "Search for \"ETH Tracker\""
                         )
 
                         InstructionRow(
@@ -120,6 +139,7 @@ struct ContentView: View {
                             icon: "checkmark.circle.fill",
                             text: "Choose a size and tap Add Widget"
                         )
+                        #endif
                     }
                 }
                 .padding(24)
