@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var logoOpacity: Double = 0
     @State private var textOpacity: Double = 0
     @State private var instructionsOpacity: Double = 0
+    @State private var instructionsExpanded = true
     @State private var refreshID = UUID()
 
     var body: some View {
@@ -81,18 +82,34 @@ struct ContentView: View {
                 Spacer()
                     .frame(height: 24)
 
-                // Instructions card
+                // Instructions card (tap the header to collapse/expand)
                 VStack(spacing: 20) {
-                    HStack(spacing: 12) {
-                        Image(systemName: "plus.square.on.square")
-                            .font(.system(size: 24))
-                            .foregroundStyle(.cyan)
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            instructionsExpanded.toggle()
+                        }
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "plus.square.on.square")
+                                .font(.system(size: 24))
+                                .foregroundStyle(.cyan)
 
-                        Text("Add the Widget")
-                            .font(.system(size: 18, weight: .semibold, design: .rounded))
-                            .foregroundStyle(.white)
+                            Text("Add the Widget")
+                                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                                .foregroundStyle(.white)
+
+                            Spacer()
+
+                            Image(systemName: "chevron.down")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(.white.opacity(0.5))
+                                .rotationEffect(.degrees(instructionsExpanded ? 0 : -90))
+                        }
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(instructionsExpanded ? "Hide widget instructions" : "Show widget instructions")
 
+                    if instructionsExpanded {
                     Divider()
                         .background(.white.opacity(0.1))
 
@@ -140,6 +157,7 @@ struct ContentView: View {
                             text: "Choose a size and tap Add Widget"
                         )
                         #endif
+                    }
                     }
                 }
                 .padding(24)

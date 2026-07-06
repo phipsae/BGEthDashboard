@@ -7,8 +7,11 @@ import SwiftUI
 import Charts
 
 struct DashboardView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @State private var data: DashboardResponse?
     @State private var failedToLoad = false
+
+    private let refreshInterval: TimeInterval = 60
 
     var body: some View {
         VStack(spacing: 16) {
@@ -124,7 +127,31 @@ struct DashboardView: View {
                         )
                 )
         )
-        .task { await load() }
+        .overlay(alignment: .topTrailing) {
+            Button {
+                Task { await load() }
+            } label: {
+                Image(systemName: "arrow.clockwise")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(.white.opacity(0.5))
+                    .padding(14)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Refresh")
+        }
+        .task {
+            await load()
+            // Periodic refresh while the dashboard stays on screen
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(refreshInterval))
+                await load()
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                Task { await load() }
+            }
+        }
     }
 
     func load() async {
