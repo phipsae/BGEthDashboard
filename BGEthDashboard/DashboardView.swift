@@ -5,6 +5,7 @@
 
 import SwiftUI
 import Charts
+import WidgetKit
 
 struct DashboardView: View {
     @Environment(\.scenePhase) private var scenePhase
@@ -169,6 +170,11 @@ struct DashboardView: View {
             withAnimation { data = fresh }
             lastUpdated = Date()
             failedToLoad = false
+            // Share the fresh payload with the widget and force it to reload. This is the
+            // budget-independent recovery path that revives a stale/placeholder widget
+            // whenever the app is opened or refreshed.
+            DashboardCache.save(fresh)
+            WidgetCenter.shared.reloadAllTimelines()
         } catch {
             failedToLoad = true
         }

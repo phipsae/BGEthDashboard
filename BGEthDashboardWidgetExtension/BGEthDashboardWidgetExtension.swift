@@ -32,28 +32,8 @@ struct DashboardEntry: TimelineEntry {
     let isStale: Bool
 }
 
-// MARK: - Local cache of the last successful fetch
-
-struct CachedDashboard: Codable {
-    let data: DashboardResponse
-    let fetchedAt: Date
-}
-
-enum DashboardCache {
-    private static let key = "cachedDashboard"
-
-    static func save(_ data: DashboardResponse) {
-        let cached = CachedDashboard(data: data, fetchedAt: Date())
-        if let encoded = try? JSONEncoder().encode(cached) {
-            UserDefaults.standard.set(encoded, forKey: key)
-        }
-    }
-
-    static func load() -> CachedDashboard? {
-        guard let encoded = UserDefaults.standard.data(forKey: key) else { return nil }
-        return try? JSONDecoder().decode(CachedDashboard.self, from: encoded)
-    }
-}
+// The last-good cache (`DashboardCache`) lives in Shared/DashboardCache.swift, backed by
+// the App Group so the app and widget share it.
 
 // MARK: - Timeline Provider
 
@@ -73,7 +53,9 @@ struct DashboardProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<DashboardEntry>) -> ()) {
         Task {
             let (entry, retrySooner) = await fetchEntry()
-            let minutes = retrySooner ? 2 : 5
+            // Keep requests at or above WidgetKit's effective refresh floor (~15 min) so
+            // the daily reload budget is not exhausted (which froze the widget before).
+            let minutes = retrySooner ? 15 : 30
             let nextUpdate = Calendar.current.date(byAdding: .minute, value: minutes, to: entry.date)!
             completion(Timeline(entries: [entry], policy: .after(nextUpdate)))
         }
@@ -83,7 +65,7 @@ struct DashboardProvider: TimelineProvider {
     private func fetchEntry() async -> (entry: DashboardEntry, retrySooner: Bool) {
         let now = Date()
         do {
-            let data = try await DashboardAPIService.fetchDashboard()
+            let data = try await DashboardAPIService.fetchDashboard(using: DashboardAPIService.widgetSession)
             DashboardCache.save(data)
             return (DashboardEntry(date: now, data: data, lastUpdated: now, isStale: false), false)
         } catch {
