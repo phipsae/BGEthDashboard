@@ -15,9 +15,16 @@ final class DashboardStore {
     var lastUpdated: Date?
     var failedToLoad = false
 
+    /// Bumped on every load. The auto-refresh loop, foreground refetch, refresh button and
+    /// pull-to-refresh can overlap, so only the newest request may touch state or the cache.
+    @ObservationIgnored private var latestRequest = 0
+
     func load() async {
+        latestRequest += 1
+        let request = latestRequest
         do {
             let fresh = try await DashboardAPIService.fetchDashboard()
+            guard request == latestRequest else { return }
             withAnimation { data = fresh }
             lastUpdated = Date()
             failedToLoad = false
@@ -27,6 +34,7 @@ final class DashboardStore {
             DashboardCache.save(fresh)
             WidgetCenter.shared.reloadAllTimelines()
         } catch {
+            guard request == latestRequest else { return }
             failedToLoad = true
         }
     }
