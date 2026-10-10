@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var textOpacity: Double = 0
     @State private var instructionsOpacity: Double = 0
     @State private var instructionsExpanded = false
-    @State private var refreshID = UUID()
+    @State private var store = DashboardStore()
 
     var body: some View {
         ZStack {
@@ -74,8 +74,7 @@ struct ContentView: View {
                     .frame(height: 20)
 
                 // Live dashboard
-                DashboardView()
-                    .id(refreshID)
+                DashboardView(store: store)
                     .opacity(textOpacity)
                     .padding(.horizontal, 24)
 
@@ -191,7 +190,7 @@ struct ContentView: View {
                 }
             }
             .refreshable {
-                refreshID = UUID()
+                await store.load()
             }
         }
         .onAppear {

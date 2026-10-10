@@ -7,13 +7,38 @@ import SwiftUI
 import Charts
 import WidgetKit
 
+/// Dashboard state, owned by ContentView so pull-to-refresh can await a reload
+/// without recreating the view (which would blank every value until the fetch returns).
+@MainActor @Observable
+final class DashboardStore {
+    var data: DashboardResponse?
+    var lastUpdated: Date?
+    var failedToLoad = false
+
+    func load() async {
+        do {
+            let fresh = try await DashboardAPIService.fetchDashboard()
+            withAnimation { data = fresh }
+            lastUpdated = Date()
+            failedToLoad = false
+            // Share the fresh payload with the widget and force it to reload. This is the
+            // budget-independent recovery path that revives a stale/placeholder widget
+            // whenever the app is opened or refreshed.
+            DashboardCache.save(fresh)
+            WidgetCenter.shared.reloadAllTimelines()
+        } catch {
+            failedToLoad = true
+        }
+    }
+}
+
 struct DashboardView: View {
     @Environment(\.scenePhase) private var scenePhase
-    @State private var data: DashboardResponse?
-    @State private var lastUpdated: Date?
-    @State private var failedToLoad = false
+    let store: DashboardStore
 
     private let refreshInterval: TimeInterval = 60
+
+    private var data: DashboardResponse? { store.data }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -107,11 +132,11 @@ struct DashboardView: View {
                 }
             }
 
-            if failedToLoad {
+            if store.failedToLoad {
                 Text(data == nil ? "Couldn't load data. Pull to retry." : "Showing last loaded data. Pull to retry.")
                     .font(.system(size: 12, weight: .medium, design: .rounded))
                     .foregroundStyle(.orange.opacity(0.8))
-            } else if let lastUpdated {
+            } else if let lastUpdated = store.lastUpdated {
                 HStack(spacing: 3) {
                     Text("Updated")
                     Text(lastUpdated, style: .time)
@@ -139,7 +164,7 @@ struct DashboardView: View {
         )
         .overlay(alignment: .topTrailing) {
             Button {
-                Task { await load() }
+                Task { await store.load() }
             } label: {
                 Image(systemName: "arrow.clockwise")
                     .font(.system(size: 14, weight: .medium))
@@ -150,33 +175,17 @@ struct DashboardView: View {
             .accessibilityLabel("Refresh")
         }
         .task {
-            await load()
+            await store.load()
             // Periodic refresh while the dashboard stays on screen
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(refreshInterval))
-                await load()
+                await store.load()
             }
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
-                Task { await load() }
+                Task { await store.load() }
             }
-        }
-    }
-
-    func load() async {
-        do {
-            let fresh = try await DashboardAPIService.fetchDashboard()
-            withAnimation { data = fresh }
-            lastUpdated = Date()
-            failedToLoad = false
-            // Share the fresh payload with the widget and force it to reload. This is the
-            // budget-independent recovery path that revives a stale/placeholder widget
-            // whenever the app is opened or refreshed.
-            DashboardCache.save(fresh)
-            WidgetCenter.shared.reloadAllTimelines()
-        } catch {
-            failedToLoad = true
         }
     }
 }
@@ -212,6 +221,6 @@ struct AppStatCell: View {
 #Preview {
     ZStack {
         Color.black.ignoresSafeArea()
-        DashboardView()
+        DashboardView(store: DashboardStore())
     }
 }
